@@ -1,0 +1,192 @@
+<h1>food</h1>
+
+<h2>Text classification words</h2>
+<ul>
+	
+	  <li>Mat</li>
+	
+	  <li>Maten</li>
+	
+	  <li>Äter</li>
+	
+	  <li>Åt</li>
+	
+	  <li>Födan</li>
+	
+	  <li>Kost</li>
+	
+	  <li>Kosten</li>
+	
+	  <li>Tilltugg</li>
+	
+	  <li>Tilltugget</li>
+	
+	  <li>Måltid</li>
+	
+	  <li>Måltiden</li>
+	
+	  <li>Måltider</li>
+	
+	  <li>Krubb</li>
+	
+	  <li>Krubbet</li>
+	
+	  <li>Käk</li>
+	
+	  <li>Käket</li>
+	
+	  <li>Käkar</li>
+	
+	  <li>krubb</li>
+	
+	  <li>krubbet</li>
+	
+	  <li>restaurang</li>
+	
+	  <li>restaurangen</li>
+	
+	  <li>grill</li>
+	
+	  <li>grillen</li>
+	
+	  <li>pizza</li>
+	
+	  <li>hamburgare</li>
+	
+	  <li>korv</li>
+	
+</ul>
+
+<h2>Wordnet-2012 objects</h2>
+<ul>
+	
+	  <p class="wordnet">strawberry</p>
+	
+	  <p class="wordnet">Granny Smith</p>
+	
+	  <p class="wordnet">orange</p>
+	
+	  <p class="wordnet">lemon</p>
+	
+	  <p class="wordnet">fig</p>
+	
+	  <p class="wordnet">pineapple, ananas</p>
+	
+	  <p class="wordnet">banana</p>
+	
+	  <p class="wordnet">jackfruit, jak, jack</p>
+	
+	  <p class="wordnet">custard apple</p>
+	
+	  <p class="wordnet">pomegranate</p>
+	
+	  <p class="wordnet">corn</p>
+	
+	  <p class="wordnet">mashed potato</p>
+	
+	  <p class="wordnet">bell pepper</p>
+	
+	  <p class="wordnet">head cabbage</p>
+	
+	  <p class="wordnet">broccoli</p>
+	
+	  <p class="wordnet">cauliflower</p>
+	
+	  <p class="wordnet">zucchini, courgette</p>
+	
+	  <p class="wordnet">spaghetti squash</p>
+	
+	  <p class="wordnet">acorn squash</p>
+	
+	  <p class="wordnet">butternut squash</p>
+	
+	  <p class="wordnet">cucumber, cuke</p>
+	
+	  <p class="wordnet">artichoke, globe artichoke</p>
+	
+	  <p class="wordnet">cardoon</p>
+	
+	  <p class="wordnet">mushroom</p>
+	
+	  <p class="wordnet">plate</p>
+	
+	  <p class="wordnet">bagel, beigel</p>
+	
+	  <p class="wordnet">hot pot, hotpot</p>
+	
+	  <p class="wordnet">trifle</p>
+	
+	  <p class="wordnet">red wine</p>
+	
+	  <p class="wordnet">menu</p>
+	
+	  <p class="wordnet">meat loaf, meatloaf</p>
+	
+	  <p class="wordnet">guacamole</p>
+	
+	  <p class="wordnet">hay</p>
+	
+	  <p class="wordnet">eggnog</p>
+	
+	  <p class="wordnet">potpie</p>
+	
+	  <p class="wordnet">consomme</p>
+	
+	  <p class="wordnet">cup</p>
+	
+	  <p class="wordnet">dough</p>
+	
+	  <p class="wordnet">French loaf</p>
+	
+	  <p class="wordnet">hotdog, hot dog, red hot</p>
+	
+	  <p class="wordnet">ladle</p>
+	
+	  <p class="wordnet">burrito</p>
+	
+	  <p class="wordnet">espresso</p>
+	
+	  <p class="wordnet">pizza, pizza pie</p>
+	
+	  <p class="wordnet">saltshaker, salt shaker</p>
+	
+	  <p class="wordnet">chocolate sauce, chocolate syrup</p>
+	
+	  <p class="wordnet">ice lolly, lolly, lollipop, popsicle</p>
+	
+	  <p class="wordnet">ice cream, icecream</p>
+	
+	  <p class="wordnet">pretzel</p>
+	
+	  <p class="wordnet">cheeseburger</p>
+	
+	  <p class="wordnet">carbonara</p>
+	
+</ul>
+
+<script>
+document.body.querySelectorAll('.wordnet').forEach((p)=>{
+
+	//get list of images from words.
+	fetch("http://image-net.org/search?q="+p.textContent)
+		.then(d=> d.text()).then((body) => {
+			//get the word-net-id
+			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
+			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
+		}).then((d) => d.text()).then((resp) => {
+			var items = resp.split("\n").slice(0,10)
+			console.log(items)
+			items.forEach((item) => {
+				var image = document.createElement("img")
+				image.setAttribute("src", item);
+				p.after(image)
+				console.log("done")
+			})
+		})
+})
+</script>
+<style type="text/css">
+img {
+  width:33%;
+}
+</style>

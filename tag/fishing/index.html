@@ -1,0 +1,54 @@
+<h1>fishing</h1>
+
+<h2>Text classification words</h2>
+<ul>
+	
+	  <li>Fiske</li>
+	
+	  <li>Fisket</li>
+	
+	  <li>Fiskade</li>
+	
+	  <li>flugfiske</li>
+	
+	  <li>meta</li>
+	
+	  <li>agn</li>
+	
+	  <li>fiskebåt</li>
+	
+</ul>
+
+<h2>Wordnet-2012 objects</h2>
+<ul>
+	
+	  <p class="wordnet">reel</p>
+	
+</ul>
+
+<script>
+document.body.querySelectorAll('.wordnet').forEach((p)=>{
+
+	//get list of images from words.
+	fetch("http://image-net.org/search?q="+p.textContent)
+		.then(d=> d.text()).then((body) => {
+			//get the word-net-id
+			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
+			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
+		}).then((d) => d.text()).then((resp) => {
+			var items = resp.split("\n").slice(0,10)
+			console.log(items)
+			items.forEach((item) => {
+				var image = document.createElement("img")
+				image.setAttribute("src", item);
+				p.after(image)
+				console.log("done")
+			})
+		})
+})
+</script>
+<style type="text/css">
+img {
+  width:33%;
+}
+</style>

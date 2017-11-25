@@ -1,0 +1,164 @@
+<h1>home</h1>
+
+<h2>Text classification words</h2>
+<ul>
+	
+	  <li>Hem</li>
+	
+	  <li>Hemmet</li>
+	
+	  <li>Bostad</li>
+	
+	  <li>Bostaden</li>
+	
+	  <li>Boning</li>
+	
+	  <li>Hemvist</li>
+	
+	  <li>Hushåll</li>
+	
+	  <li>Hushållet</li>
+	
+	  <li>Lägenheten</li>
+	
+	  <li>Huset</li>
+	
+	  <li>Hus</li>
+	
+	  <li>Lägenhet</li>
+	
+	  <li>Radhus</li>
+	
+	  <li>Radhuset</li>
+	
+</ul>
+
+<h2>Wordnet-2012 objects</h2>
+<ul>
+	
+	  <p class="wordnet">bassinet</p>
+	
+	  <p class="wordnet">cradle</p>
+	
+	  <p class="wordnet">crib, cot</p>
+	
+	  <p class="wordnet">four-poster</p>
+	
+	  <p class="wordnet">bookcase</p>
+	
+	  <p class="wordnet">china cabinet, china closet</p>
+	
+	  <p class="wordnet">medicine chest, medicine cabinet</p>
+	
+	  <p class="wordnet">chiffonier, commode</p>
+	
+	  <p class="wordnet">table lamp</p>
+	
+	  <p class="wordnet">file, file cabinet, filing cabinet</p>
+	
+	  <p class="wordnet">park bench</p>
+	
+	  <p class="wordnet">barber chair</p>
+	
+	  <p class="wordnet">throne</p>
+	
+	  <p class="wordnet">folding chair</p>
+	
+	  <p class="wordnet">rocking chair, rocker</p>
+	
+	  <p class="wordnet">studio couch, day bed</p>
+	
+	  <p class="wordnet">toilet seat</p>
+	
+	  <p class="wordnet">desk</p>
+	
+	  <p class="wordnet">pool table, billiard table, snooker table</p>
+	
+	  <p class="wordnet">dining table, board</p>
+	
+	  <p class="wordnet">entertainment center</p>
+	
+	  <p class="wordnet">wardrobe, closet, press</p>
+	
+	  <p class="wordnet">stove</p>
+	
+	  <p class="wordnet">sewing machine</p>
+	
+	  <p class="wordnet">iron, smoothing iron</p>
+	
+	  <p class="wordnet">espresso maker</p>
+	
+	  <p class="wordnet">microwave, microwave oven</p>
+	
+	  <p class="wordnet">Dutch oven</p>
+	
+	  <p class="wordnet">rotisserie</p>
+	
+	  <p class="wordnet">toaster</p>
+	
+	  <p class="wordnet">waffle iron</p>
+	
+	  <p class="wordnet">vacuum, vacuum cleaner</p>
+	
+	  <p class="wordnet">dishwasher, dish washer, dishwashing machine</p>
+	
+	  <p class="wordnet">refrigerator, icebox</p>
+	
+	  <p class="wordnet">washer, automatic washer, washing machine</p>
+	
+	  <p class="wordnet">patio, terrace</p>
+	
+	  <p class="wordnet">yurt</p>
+	
+	  <p class="wordnet">plate rack</p>
+	
+	  <p class="wordnet">shower curtain</p>
+	
+	  <p class="wordnet">tub, vat</p>
+	
+	  <p class="wordnet">Petri dish</p>
+	
+	  <p class="wordnet">lampshade, lamp shade</p>
+	
+	  <p class="wordnet">soup bowl</p>
+	
+	  <p class="wordnet">mixing bowl</p>
+	
+	  <p class="wordnet">bathtub, bathing tub, bath, tub</p>
+	
+	  <p class="wordnet">mailbox, letter box</p>
+	
+	  <p class="wordnet">wooden spoon</p>
+	
+	  <p class="wordnet">doormat, welcome mat</p>
+	
+	  <p class="wordnet">quilt, comforter, comfort, puff</p>
+	
+</ul>
+
+<script>
+document.body.querySelectorAll('.wordnet').forEach((p)=>{
+
+	//get list of images from words.
+	fetch("http://image-net.org/search?q="+p.textContent)
+		.then(d=> d.text()).then((body) => {
+			//get the word-net-id
+			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
+			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
+		}).then((d) => d.text()).then((resp) => {
+			var items = resp.split("\n").slice(0,10)
+			console.log(items)
+			items.forEach((item) => {
+				var image = document.createElement("img")
+				image.setAttribute("src", item);
+				p.after(image)
+				console.log("done")
+			})
+		})
+})
+</script>
+<style type="text/css">
+img {
+  width:33%;
+}
+</style>

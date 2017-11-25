@@ -1,0 +1,80 @@
+<h1>martial_arts</h1>
+
+<h2>Text classification words</h2>
+<ul>
+	
+	  <li>Kampsport</li>
+	
+	  <li>Kampsporten</li>
+	
+	  <li>Kampsporter</li>
+	
+	  <li>fight</li>
+	
+	  <li>fightas</li>
+	
+	  <li>sparra</li>
+	
+	  <li>sparring</li>
+	
+	  <li>mits</li>
+	
+	  <li>mitsar</li>
+	
+	  <li>boxningssäck</li>
+	
+	  <li>rond</li>
+	
+	  <li>ronder</li>
+	
+	  <li>tungvikt</li>
+	
+	  <li>tungviktare</li>
+	
+	  <li>lättvikt</li>
+	
+	  <li>lättviktare</li>
+	
+	  <li>knockout</li>
+	
+	  <li>knockouts</li>
+	
+	  <li>slag</li>
+	
+	  <li>spark</li>
+	
+	  <li>sparkar</li>
+	
+</ul>
+
+<h2>Wordnet-2012 objects</h2>
+<ul>
+	
+</ul>
+
+<script>
+document.body.querySelectorAll('.wordnet').forEach((p)=>{
+
+	//get list of images from words.
+	fetch("http://image-net.org/search?q="+p.textContent)
+		.then(d=> d.text()).then((body) => {
+			//get the word-net-id
+			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
+			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
+		}).then((d) => d.text()).then((resp) => {
+			var items = resp.split("\n").slice(0,10)
+			console.log(items)
+			items.forEach((item) => {
+				var image = document.createElement("img")
+				image.setAttribute("src", item);
+				p.after(image)
+				console.log("done")
+			})
+		})
+})
+</script>
+<style type="text/css">
+img {
+  width:33%;
+}
+</style>

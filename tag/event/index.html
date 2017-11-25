@@ -1,0 +1,72 @@
+<h1>event</h1>
+
+<h2>Text classification words</h2>
+<ul>
+	
+	  <li>Tillställning</li>
+	
+	  <li>Tillställningen</li>
+	
+	  <li>Fest</li>
+	
+	  <li>Festen</li>
+	
+	  <li>Bjudning</li>
+	
+	  <li>Arrangemang</li>
+	
+	  <li>Arrangemanget</li>
+	
+	  <li>Party</li>
+	
+	  <li>Partaj</li>
+	
+	  <li>Bal</li>
+	
+	  <li>Balen</li>
+	
+	  <li>Kalas</li>
+	
+	  <li>Kalaset</li>
+	
+	  <li>Jippo</li>
+	
+	  <li>Jippot</li>
+	
+	  <li>Event</li>
+	
+	  <li>Evangemang</li>
+	
+</ul>
+
+<h2>Wordnet-2012 objects</h2>
+<ul>
+	
+</ul>
+
+<script>
+document.body.querySelectorAll('.wordnet').forEach((p)=>{
+
+	//get list of images from words.
+	fetch("http://image-net.org/search?q="+p.textContent)
+		.then(d=> d.text()).then((body) => {
+			//get the word-net-id
+			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
+			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
+		}).then((d) => d.text()).then((resp) => {
+			var items = resp.split("\n").slice(0,10)
+			console.log(items)
+			items.forEach((item) => {
+				var image = document.createElement("img")
+				image.setAttribute("src", item);
+				p.after(image)
+				console.log("done")
+			})
+		})
+})
+</script>
+<style type="text/css">
+img {
+  width:33%;
+}
+</style>

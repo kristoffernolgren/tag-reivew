@@ -1,0 +1,82 @@
+<h1>appearance</h1>
+
+<h2>Text classification words</h2>
+<ul>
+	
+	  <li>Utseende</li>
+	
+	  <li>Utseendet</li>
+	
+	  <li>Utseenden</li>
+	
+	  <li>smink</li>
+	
+	  <li>frisör</li>
+	
+	  <li>frisyr</li>
+	
+	  <li>mode</li>
+	
+	  <li>kläder</li>
+	
+	  <li>byxor</li>
+	
+	  <li>tröja</li>
+	
+	  <li>tröjor</li>
+	
+	  <li>barberare</li>
+	
+	  <li>skäggtrimning</li>
+	
+	  <li>rakning</li>
+	
+	  <li>manikur</li>
+	
+	  <li>nagelvård</li>
+	
+	  <li>handvård</li>
+	
+	  <li>fotvård</li>
+	
+</ul>
+
+<h2>Wordnet-2012 objects</h2>
+<ul>
+	
+	  <p class="wordnet">face powder</p>
+	
+	  <p class="wordnet">lipstick, lip rouge</p>
+	
+	  <p class="wordnet">perfume, essence</p>
+	
+	  <p class="wordnet">hair spray</p>
+	
+</ul>
+
+<script>
+document.body.querySelectorAll('.wordnet').forEach((p)=>{
+
+	//get list of images from words.
+	fetch("http://image-net.org/search?q="+p.textContent)
+		.then(d=> d.text()).then((body) => {
+			//get the word-net-id
+			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
+			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
+		}).then((d) => d.text()).then((resp) => {
+			var items = resp.split("\n").slice(0,10)
+			console.log(items)
+			items.forEach((item) => {
+				var image = document.createElement("img")
+				image.setAttribute("src", item);
+				p.after(image)
+				console.log("done")
+			})
+		})
+})
+</script>
+<style type="text/css">
+img {
+  width:33%;
+}
+</style>

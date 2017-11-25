@@ -1,0 +1,196 @@
+<h1>clothes</h1>
+
+<h2>Text classification words</h2>
+<ul>
+	
+	  <li>Kläder</li>
+	
+	  <li>Kläderna</li>
+	
+	  <li>Klädesplagg</li>
+	
+	  <li>Klädesplaggen</li>
+	
+	  <li>Beklädnad</li>
+	
+	  <li>Dräkt</li>
+	
+	  <li>Dress</li>
+	
+	  <li>Klädsel</li>
+	
+	  <li>Mundering</li>
+	
+	  <li>Svid</li>
+	
+	  <li>Paltor</li>
+	
+	  <li>Kjol</li>
+	
+	  <li>Byxa</li>
+	
+	  <li>Skor</li>
+	
+	  <li>Byxor</li>
+	
+	  <li>Kjolar</li>
+	
+	  <li>Skorna</li>
+	
+	  <li>Strumpa</li>
+	
+	  <li>Strumpor</li>
+	
+</ul>
+
+<h2>Wordnet-2012 objects</h2>
+<ul>
+	
+	  <p class="wordnet">seat belt, seatbelt</p>
+	
+	  <p class="wordnet">jean, blue jean, denim</p>
+	
+	  <p class="wordnet">handkerchief, hankie, hanky, hankey</p>
+	
+	  <p class="wordnet">sandal</p>
+	
+	  <p class="wordnet">fur coat</p>
+	
+	  <p class="wordnet">pajama, pyjama, pj's, jammies</p>
+	
+	  <p class="wordnet">running shoe</p>
+	
+	  <p class="wordnet">kimono</p>
+	
+	  <p class="wordnet">knee pad</p>
+	
+	  <p class="wordnet">crash helmet</p>
+	
+	  <p class="wordnet">mask</p>
+	
+	  <p class="wordnet">maillot</p>
+	
+	  <p class="wordnet">football helmet</p>
+	
+	  <p class="wordnet">bathing cap, swimming cap</p>
+	
+	  <p class="wordnet">vestment</p>
+	
+	  <p class="wordnet">suit, suit of clothes</p>
+	
+	  <p class="wordnet">feather boa, boa</p>
+	
+	  <p class="wordnet">cloak</p>
+	
+	  <p class="wordnet">Christmas stocking</p>
+	
+	  <p class="wordnet">hoopskirt, crinoline</p>
+	
+	  <p class="wordnet">bonnet, poke bonnet</p>
+	
+	  <p class="wordnet">bow tie, bow-tie, bowtie</p>
+	
+	  <p class="wordnet">dishrag, dishcloth</p>
+	
+	  <p class="wordnet">trench coat</p>
+	
+	  <p class="wordnet">bulletproof vest</p>
+	
+	  <p class="wordnet">cardigan</p>
+	
+	  <p class="wordnet">sweatshirt</p>
+	
+	  <p class="wordnet">apron</p>
+	
+	  <p class="wordnet">bearskin, busby, shako</p>
+	
+	  <p class="wordnet">abaya</p>
+	
+	  <p class="wordnet">mortarboard</p>
+	
+	  <p class="wordnet">poncho</p>
+	
+	  <p class="wordnet">military uniform</p>
+	
+	  <p class="wordnet">shower cap</p>
+	
+	  <p class="wordnet">mitten</p>
+	
+	  <p class="wordnet">brassiere, bra, bandeau</p>
+	
+	  <p class="wordnet">paper towel</p>
+	
+	  <p class="wordnet">miniskirt, mini</p>
+	
+	  <p class="wordnet">cowboy hat, ten-gallon hat</p>
+	
+	  <p class="wordnet">academic gown, academic robe, judge's robe</p>
+	
+	  <p class="wordnet">wig</p>
+	
+	  <p class="wordnet">bath towel</p>
+	
+	  <p class="wordnet">cowboy boot</p>
+	
+	  <p class="wordnet">gown</p>
+	
+	  <p class="wordnet">lab coat, laboratory coat</p>
+	
+	  <p class="wordnet">sombrero</p>
+	
+	  <p class="wordnet">Windsor tie</p>
+	
+	  <p class="wordnet">overskirt</p>
+	
+	  <p class="wordnet">sarong</p>
+	
+	  <p class="wordnet">bolo tie, bolo, bola tie, bola</p>
+	
+	  <p class="wordnet">bib</p>
+	
+	  <p class="wordnet">swimming trunks, bathing trunks</p>
+	
+	  <p class="wordnet">jersey, T-shirt, tee shirt</p>
+	
+	  <p class="wordnet">diaper, nappy, napkin</p>
+	
+	  <p class="wordnet">Loafer</p>
+	
+	  <p class="wordnet">maillot, tank suit</p>
+	
+	  <p class="wordnet">clog, geta, patten, sabot</p>
+	
+	  <p class="wordnet">bikini, two-piece</p>
+	
+	  <p class="wordnet">sock</p>
+	
+	  <p class="wordnet">stole</p>
+	
+</ul>
+
+<script>
+document.body.querySelectorAll('.wordnet').forEach((p)=>{
+
+	//get list of images from words.
+	fetch("http://image-net.org/search?q="+p.textContent)
+		.then(d=> d.text()).then((body) => {
+			//get the word-net-id
+			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
+			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
+		}).then((d) => d.text()).then((resp) => {
+			var items = resp.split("\n").slice(0,10)
+			console.log(items)
+			items.forEach((item) => {
+				var image = document.createElement("img")
+				image.setAttribute("src", item);
+				p.after(image)
+				console.log("done")
+			})
+		})
+})
+</script>
+<style type="text/css">
+img {
+  width:33%;
+}
+</style>

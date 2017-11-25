@@ -1,0 +1,108 @@
+<h1>economy</h1>
+
+<h2>Text classification words</h2>
+<ul>
+	
+	  <li>Ekonomi</li>
+	
+	  <li>Ekonomin</li>
+	
+	  <li>Hushållning</li>
+	
+	  <li>finanser</li>
+	
+	  <li>finans</li>
+	
+	  <li>besparing</li>
+	
+	  <li>besparingar</li>
+	
+	  <li>spara</li>
+	
+	  <li>affärsställning</li>
+	
+	  <li>peng</li>
+	
+	  <li>pengar</li>
+	
+	  <li>riksdaler</li>
+	
+	  <li>aktie</li>
+	
+	  <li>aktier</li>
+	
+	  <li>ekonomisera</li>
+	
+	  <li>finansering</li>
+	
+	  <li>kontant</li>
+	
+	  <li>kontanter</li>
+	
+	  <li>stålar</li>
+	
+	  <li>cash</li>
+	
+	  <li>kosing</li>
+	
+	  <li>värdepapper</li>
+	
+	  <li>skuldebrev</li>
+	
+	  <li>räkning</li>
+	
+	  <li>räkningar</li>
+	
+	  <li>amortering</li>
+	
+	  <li>skatt</li>
+	
+	  <li>skatteplanering</li>
+	
+	  <li>ränta</li>
+	
+	  <li>hushållslån</li>
+	
+	  <li>bostadslån</li>
+	
+	  <li>topplån</li>
+	
+	  <li>pensionsspara</li>
+	
+	  <li>pensionsmyndighet</li>
+	
+	  <li>pensionen</li>
+	
+</ul>
+
+<h2>Wordnet-2012 objects</h2>
+<ul>
+	
+</ul>
+
+<script>
+document.body.querySelectorAll('.wordnet').forEach((p)=>{
+
+	//get list of images from words.
+	fetch("http://image-net.org/search?q="+p.textContent)
+		.then(d=> d.text()).then((body) => {
+			//get the word-net-id
+			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
+			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
+		}).then((d) => d.text()).then((resp) => {
+			var items = resp.split("\n").slice(0,10)
+			console.log(items)
+			items.forEach((item) => {
+				var image = document.createElement("img")
+				image.setAttribute("src", item);
+				p.after(image)
+				console.log("done")
+			})
+		})
+})
+</script>
+<style type="text/css">
+img {
+  width:33%;
+}
+</style>

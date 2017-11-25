@@ -1,0 +1,144 @@
+<h1>music</h1>
+
+<h2>Text classification words</h2>
+<ul>
+	
+	  <li>Musik</li>
+	
+	  <li>Musiken</li>
+	
+	  <li>Music</li>
+	
+	  <li>Melodi</li>
+	
+	  <li>Melodin</li>
+	
+	  <li>Melodier</li>
+	
+	  <li>Toner</li>
+	
+	  <li>Tonerna</li>
+	
+	  <li>Klang</li>
+	
+	  <li>Klanger</li>
+	
+	  <li>gitarr</li>
+	
+	  <li>flöjt</li>
+	
+	  <li>trumpet</li>
+	
+	  <li>trummor</li>
+	
+	  <li>strängar</li>
+	
+	  <li>piano</li>
+	
+	  <li>dragspel</li>
+	
+	  <li>handklaver</li>
+	
+	  <li>drängkammarorgel</li>
+	
+	  <li>munspel</li>
+	
+	  <li>låtar</li>
+	
+	  <li>spellista</li>
+	
+	  <li>spellistor</li>
+	
+	  <li>musikband</li>
+	
+</ul>
+
+<h2>Wordnet-2012 objects</h2>
+<ul>
+	
+	  <p class="wordnet">accordion, piano accordion, squeeze box</p>
+	
+	  <p class="wordnet">grand piano, grand</p>
+	
+	  <p class="wordnet">organ, pipe organ</p>
+	
+	  <p class="wordnet">upright, upright piano</p>
+	
+	  <p class="wordnet">chime, bell, gong</p>
+	
+	  <p class="wordnet">drum, membranophone, tympan</p>
+	
+	  <p class="wordnet">gong, tam-tam</p>
+	
+	  <p class="wordnet">maraca</p>
+	
+	  <p class="wordnet">marimba, xylophone</p>
+	
+	  <p class="wordnet">steel drum</p>
+	
+	  <p class="wordnet">banjo</p>
+	
+	  <p class="wordnet">cello, violoncello</p>
+	
+	  <p class="wordnet">violin, fiddle</p>
+	
+	  <p class="wordnet">harp</p>
+	
+	  <p class="wordnet">acoustic guitar</p>
+	
+	  <p class="wordnet">electric guitar</p>
+	
+	  <p class="wordnet">cornet, horn, trumpet, trump</p>
+	
+	  <p class="wordnet">French horn, horn</p>
+	
+	  <p class="wordnet">trombone</p>
+	
+	  <p class="wordnet">harmonica, mouth organ, harp, mouth harp</p>
+	
+	  <p class="wordnet">ocarina, sweet potato</p>
+	
+	  <p class="wordnet">panpipe, pandean pipe, syrinx</p>
+	
+	  <p class="wordnet">bassoon</p>
+	
+	  <p class="wordnet">oboe, hautboy, hautbois</p>
+	
+	  <p class="wordnet">sax, saxophone</p>
+	
+	  <p class="wordnet">flute, transverse flute</p>
+	
+	  <p class="wordnet">microphone, mike</p>
+	
+	  <p class="wordnet">pick, plectrum, plectron</p>
+	
+	  <p class="wordnet">drumstick</p>
+	
+</ul>
+
+<script>
+document.body.querySelectorAll('.wordnet').forEach((p)=>{
+
+	//get list of images from words.
+	fetch("http://image-net.org/search?q="+p.textContent)
+		.then(d=> d.text()).then((body) => {
+			//get the word-net-id
+			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
+			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
+		}).then((d) => d.text()).then((resp) => {
+			var items = resp.split("\n").slice(0,10)
+			console.log(items)
+			items.forEach((item) => {
+				var image = document.createElement("img")
+				image.setAttribute("src", item);
+				p.after(image)
+				console.log("done")
+			})
+		})
+})
+</script>
+<style type="text/css">
+img {
+  width:33%;
+}
+</style>

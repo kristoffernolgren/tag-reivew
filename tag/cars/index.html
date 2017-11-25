@@ -1,0 +1,80 @@
+<h1>cars</h1>
+
+<h2>Text classification words</h2>
+<ul>
+	
+	  <li>Bilar</li>
+	
+	  <li>Bil</li>
+	
+	  <li>bilen</li>
+	
+	  <li>bilarna</li>
+	
+</ul>
+
+<h2>Wordnet-2012 objects</h2>
+<ul>
+	
+	  <p class="wordnet">ambulance</p>
+	
+	  <p class="wordnet">beach wagon, station wagon, wagon, estate car, beach waggon, station waggon, waggon</p>
+	
+	  <p class="wordnet">cab, hack, taxi, taxicab</p>
+	
+	  <p class="wordnet">convertible</p>
+	
+	  <p class="wordnet">jeep, landrover</p>
+	
+	  <p class="wordnet">limousine, limo</p>
+	
+	  <p class="wordnet">minivan</p>
+	
+	  <p class="wordnet">Model T</p>
+	
+	  <p class="wordnet">racer, race car, racing car</p>
+	
+	  <p class="wordnet">sports car, sport car</p>
+	
+	  <p class="wordnet">pickup, pickup truck</p>
+	
+	  <p class="wordnet">recreational vehicle, RV, R.V.</p>
+	
+	  <p class="wordnet">parking meter</p>
+	
+	  <p class="wordnet">car wheel</p>
+	
+	  <p class="wordnet">car mirror</p>
+	
+	  <p class="wordnet">disk brake, disc brake</p>
+	
+	  <p class="wordnet">seat belt, seatbelt</p>
+	
+</ul>
+
+<script>
+document.body.querySelectorAll('.wordnet').forEach((p)=>{
+
+	//get list of images from words.
+	fetch("http://image-net.org/search?q="+p.textContent)
+		.then(d=> d.text()).then((body) => {
+			//get the word-net-id
+			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
+			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
+		}).then((d) => d.text()).then((resp) => {
+			var items = resp.split("\n").slice(0,10)
+			console.log(items)
+			items.forEach((item) => {
+				var image = document.createElement("img")
+				image.setAttribute("src", item);
+				p.after(image)
+				console.log("done")
+			})
+		})
+})
+</script>
+<style type="text/css">
+img {
+  width:33%;
+}
+</style>

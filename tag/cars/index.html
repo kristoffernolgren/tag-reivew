@@ -16,39 +16,39 @@
 <h2>Wordnet-2012 objects</h2>
 <ul>
 	
-	  <p class="wordnet">ambulance</p>
+	  <h3 class="wordnet">ambulance</h3>
 	
-	  <p class="wordnet">beach wagon, station wagon, wagon, estate car, beach waggon, station waggon, waggon</p>
+	  <h3 class="wordnet">beach wagon, station wagon, wagon, estate car, beach waggon, station waggon, waggon</h3>
 	
-	  <p class="wordnet">cab, hack, taxi, taxicab</p>
+	  <h3 class="wordnet">cab, hack, taxi, taxicab</h3>
 	
-	  <p class="wordnet">convertible</p>
+	  <h3 class="wordnet">convertible</h3>
 	
-	  <p class="wordnet">jeep, landrover</p>
+	  <h3 class="wordnet">jeep, landrover</h3>
 	
-	  <p class="wordnet">limousine, limo</p>
+	  <h3 class="wordnet">limousine, limo</h3>
 	
-	  <p class="wordnet">minivan</p>
+	  <h3 class="wordnet">minivan</h3>
 	
-	  <p class="wordnet">Model T</p>
+	  <h3 class="wordnet">Model T</h3>
 	
-	  <p class="wordnet">racer, race car, racing car</p>
+	  <h3 class="wordnet">racer, race car, racing car</h3>
 	
-	  <p class="wordnet">sports car, sport car</p>
+	  <h3 class="wordnet">sports car, sport car</h3>
 	
-	  <p class="wordnet">pickup, pickup truck</p>
+	  <h3 class="wordnet">pickup, pickup truck</h3>
 	
-	  <p class="wordnet">recreational vehicle, RV, R.V.</p>
+	  <h3 class="wordnet">recreational vehicle, RV, R.V.</h3>
 	
-	  <p class="wordnet">parking meter</p>
+	  <h3 class="wordnet">parking meter</h3>
 	
-	  <p class="wordnet">car wheel</p>
+	  <h3 class="wordnet">car wheel</h3>
 	
-	  <p class="wordnet">car mirror</p>
+	  <h3 class="wordnet">car mirror</h3>
 	
-	  <p class="wordnet">disk brake, disc brake</p>
+	  <h3 class="wordnet">disk brake, disc brake</h3>
 	
-	  <p class="wordnet">seat belt, seatbelt</p>
+	  <h3 class="wordnet">seat belt, seatbelt</h3>
 	
 </ul>
 
@@ -59,16 +59,16 @@ document.body.querySelectorAll('.wordnet').forEach((p)=>{
 	fetch("http://image-net.org/search?q="+p.textContent)
 		.then(d=> d.text()).then((body) => {
 			//get the word-net-id
+			console.log(p)
 			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
 			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
 		}).then((d) => d.text()).then((resp) => {
-			var items = resp.split("\n").slice(0,10)
-			console.log(items)
+			var items = resp.split("\n").slice(0,12)
 			items.forEach((item) => {
 				var image = document.createElement("img")
 				image.setAttribute("src", item);
+				image.onerror = function(){this.style.display='none';};
 				p.after(image)
-				console.log("done")
 			})
 		})
 })

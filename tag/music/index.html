@@ -56,63 +56,63 @@
 <h2>Wordnet-2012 objects</h2>
 <ul>
 	
-	  <p class="wordnet">accordion, piano accordion, squeeze box</p>
+	  <h3 class="wordnet">accordion, piano accordion, squeeze box</h3>
 	
-	  <p class="wordnet">grand piano, grand</p>
+	  <h3 class="wordnet">grand piano, grand</h3>
 	
-	  <p class="wordnet">organ, pipe organ</p>
+	  <h3 class="wordnet">organ, pipe organ</h3>
 	
-	  <p class="wordnet">upright, upright piano</p>
+	  <h3 class="wordnet">upright, upright piano</h3>
 	
-	  <p class="wordnet">chime, bell, gong</p>
+	  <h3 class="wordnet">chime, bell, gong</h3>
 	
-	  <p class="wordnet">drum, membranophone, tympan</p>
+	  <h3 class="wordnet">drum, membranophone, tympan</h3>
 	
-	  <p class="wordnet">gong, tam-tam</p>
+	  <h3 class="wordnet">gong, tam-tam</h3>
 	
-	  <p class="wordnet">maraca</p>
+	  <h3 class="wordnet">maraca</h3>
 	
-	  <p class="wordnet">marimba, xylophone</p>
+	  <h3 class="wordnet">marimba, xylophone</h3>
 	
-	  <p class="wordnet">steel drum</p>
+	  <h3 class="wordnet">steel drum</h3>
 	
-	  <p class="wordnet">banjo</p>
+	  <h3 class="wordnet">banjo</h3>
 	
-	  <p class="wordnet">cello, violoncello</p>
+	  <h3 class="wordnet">cello, violoncello</h3>
 	
-	  <p class="wordnet">violin, fiddle</p>
+	  <h3 class="wordnet">violin, fiddle</h3>
 	
-	  <p class="wordnet">harp</p>
+	  <h3 class="wordnet">harp</h3>
 	
-	  <p class="wordnet">acoustic guitar</p>
+	  <h3 class="wordnet">acoustic guitar</h3>
 	
-	  <p class="wordnet">electric guitar</p>
+	  <h3 class="wordnet">electric guitar</h3>
 	
-	  <p class="wordnet">cornet, horn, trumpet, trump</p>
+	  <h3 class="wordnet">cornet, horn, trumpet, trump</h3>
 	
-	  <p class="wordnet">French horn, horn</p>
+	  <h3 class="wordnet">French horn, horn</h3>
 	
-	  <p class="wordnet">trombone</p>
+	  <h3 class="wordnet">trombone</h3>
 	
-	  <p class="wordnet">harmonica, mouth organ, harp, mouth harp</p>
+	  <h3 class="wordnet">harmonica, mouth organ, harp, mouth harp</h3>
 	
-	  <p class="wordnet">ocarina, sweet potato</p>
+	  <h3 class="wordnet">ocarina, sweet potato</h3>
 	
-	  <p class="wordnet">panpipe, pandean pipe, syrinx</p>
+	  <h3 class="wordnet">panpipe, pandean pipe, syrinx</h3>
 	
-	  <p class="wordnet">bassoon</p>
+	  <h3 class="wordnet">bassoon</h3>
 	
-	  <p class="wordnet">oboe, hautboy, hautbois</p>
+	  <h3 class="wordnet">oboe, hautboy, hautbois</h3>
 	
-	  <p class="wordnet">sax, saxophone</p>
+	  <h3 class="wordnet">sax, saxophone</h3>
 	
-	  <p class="wordnet">flute, transverse flute</p>
+	  <h3 class="wordnet">flute, transverse flute</h3>
 	
-	  <p class="wordnet">microphone, mike</p>
+	  <h3 class="wordnet">microphone, mike</h3>
 	
-	  <p class="wordnet">pick, plectrum, plectron</p>
+	  <h3 class="wordnet">pick, plectrum, plectron</h3>
 	
-	  <p class="wordnet">drumstick</p>
+	  <h3 class="wordnet">drumstick</h3>
 	
 </ul>
 
@@ -123,16 +123,16 @@ document.body.querySelectorAll('.wordnet').forEach((p)=>{
 	fetch("http://image-net.org/search?q="+p.textContent)
 		.then(d=> d.text()).then((body) => {
 			//get the word-net-id
+			console.log(p)
 			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
 			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
 		}).then((d) => d.text()).then((resp) => {
-			var items = resp.split("\n").slice(0,10)
-			console.log(items)
+			var items = resp.split("\n").slice(0,12)
 			items.forEach((item) => {
 				var image = document.createElement("img")
 				image.setAttribute("src", item);
+				image.onerror = function(){this.style.display='none';};
 				p.after(image)
-				console.log("done")
 			})
 		})
 })

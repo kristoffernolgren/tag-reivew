@@ -36,31 +36,31 @@
 <h2>Wordnet-2012 objects</h2>
 <ul>
 	
-	  <p class="wordnet">laptop, laptop computer</p>
+	  <h3 class="wordnet">laptop, laptop computer</h3>
 	
-	  <p class="wordnet">screen, CRT screen</p>
+	  <h3 class="wordnet">screen, CRT screen</h3>
 	
-	  <p class="wordnet">mouse, computer mouse</p>
+	  <h3 class="wordnet">mouse, computer mouse</h3>
 	
-	  <p class="wordnet">computer keyboard, keypad</p>
+	  <h3 class="wordnet">computer keyboard, keypad</h3>
 	
-	  <p class="wordnet">desktop computer</p>
+	  <h3 class="wordnet">desktop computer</h3>
 	
-	  <p class="wordnet">hand-held computer, hand-held microcomputer</p>
+	  <h3 class="wordnet">hand-held computer, hand-held microcomputer</h3>
 	
-	  <p class="wordnet">notebook, notebook computer</p>
+	  <h3 class="wordnet">notebook, notebook computer</h3>
 	
-	  <p class="wordnet">printer</p>
+	  <h3 class="wordnet">printer</h3>
 	
-	  <p class="wordnet">joystick</p>
+	  <h3 class="wordnet">joystick</h3>
 	
-	  <p class="wordnet">hard disc, hard disk, fixed disk</p>
+	  <h3 class="wordnet">hard disc, hard disk, fixed disk</h3>
 	
-	  <p class="wordnet">modem</p>
+	  <h3 class="wordnet">modem</h3>
 	
-	  <p class="wordnet">space bar</p>
+	  <h3 class="wordnet">space bar</h3>
 	
-	  <p class="wordnet">monitor</p>
+	  <h3 class="wordnet">monitor</h3>
 	
 </ul>
 
@@ -71,16 +71,16 @@ document.body.querySelectorAll('.wordnet').forEach((p)=>{
 	fetch("http://image-net.org/search?q="+p.textContent)
 		.then(d=> d.text()).then((body) => {
 			//get the word-net-id
+			console.log(p)
 			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
 			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
 		}).then((d) => d.text()).then((resp) => {
-			var items = resp.split("\n").slice(0,10)
-			console.log(items)
+			var items = resp.split("\n").slice(0,12)
 			items.forEach((item) => {
 				var image = document.createElement("img")
 				image.setAttribute("src", item);
+				image.onerror = function(){this.style.display='none';};
 				p.after(image)
-				console.log("done")
 			})
 		})
 })

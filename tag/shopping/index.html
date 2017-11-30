@@ -18,27 +18,27 @@
 <h2>Wordnet-2012 objects</h2>
 <ul>
 	
-	  <p class="wordnet">shopping cart</p>
+	  <h3 class="wordnet">shopping cart</h3>
 	
-	  <p class="wordnet">grocery store, grocery, food market, market</p>
+	  <h3 class="wordnet">grocery store, grocery, food market, market</h3>
 	
-	  <p class="wordnet">bakery, bakeshop, bakehouse</p>
+	  <h3 class="wordnet">bakery, bakeshop, bakehouse</h3>
 	
-	  <p class="wordnet">barbershop</p>
+	  <h3 class="wordnet">barbershop</h3>
 	
-	  <p class="wordnet">bookshop, bookstore, bookstall</p>
+	  <h3 class="wordnet">bookshop, bookstore, bookstall</h3>
 	
-	  <p class="wordnet">butcher shop, meat market</p>
+	  <h3 class="wordnet">butcher shop, meat market</h3>
 	
-	  <p class="wordnet">confectionery, confectionary, candy store</p>
+	  <h3 class="wordnet">confectionery, confectionary, candy store</h3>
 	
-	  <p class="wordnet">shoe shop, shoe-shop, shoe store</p>
+	  <h3 class="wordnet">shoe shop, shoe-shop, shoe store</h3>
 	
-	  <p class="wordnet">tobacco shop, tobacconist shop, tobacconist</p>
+	  <h3 class="wordnet">tobacco shop, tobacconist shop, tobacconist</h3>
 	
-	  <p class="wordnet">toyshop</p>
+	  <h3 class="wordnet">toyshop</h3>
 	
-	  <p class="wordnet">shopping basket</p>
+	  <h3 class="wordnet">shopping basket</h3>
 	
 </ul>
 
@@ -49,16 +49,16 @@ document.body.querySelectorAll('.wordnet').forEach((p)=>{
 	fetch("http://image-net.org/search?q="+p.textContent)
 		.then(d=> d.text()).then((body) => {
 			//get the word-net-id
+			console.log(p)
 			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
 			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
 		}).then((d) => d.text()).then((resp) => {
-			var items = resp.split("\n").slice(0,10)
-			console.log(items)
+			var items = resp.split("\n").slice(0,12)
 			items.forEach((item) => {
 				var image = document.createElement("img")
 				image.setAttribute("src", item);
+				image.onerror = function(){this.style.display='none';};
 				p.after(image)
-				console.log("done")
 			})
 		})
 })

@@ -50,15 +50,15 @@
 <h2>Wordnet-2012 objects</h2>
 <ul>
 	
-	  <p class="wordnet">altar</p>
+	  <h3 class="wordnet">altar</h3>
 	
-	  <p class="wordnet">monastery</p>
+	  <h3 class="wordnet">monastery</h3>
 	
-	  <p class="wordnet">church, church building</p>
+	  <h3 class="wordnet">church, church building</h3>
 	
-	  <p class="wordnet">mosque</p>
+	  <h3 class="wordnet">mosque</h3>
 	
-	  <p class="wordnet">stupa, tope</p>
+	  <h3 class="wordnet">stupa, tope</h3>
 	
 </ul>
 
@@ -69,16 +69,16 @@ document.body.querySelectorAll('.wordnet').forEach((p)=>{
 	fetch("http://image-net.org/search?q="+p.textContent)
 		.then(d=> d.text()).then((body) => {
 			//get the word-net-id
+			console.log(p)
 			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
 			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
 		}).then((d) => d.text()).then((resp) => {
-			var items = resp.split("\n").slice(0,10)
-			console.log(items)
+			var items = resp.split("\n").slice(0,12)
 			items.forEach((item) => {
 				var image = document.createElement("img")
 				image.setAttribute("src", item);
+				image.onerror = function(){this.style.display='none';};
 				p.after(image)
-				console.log("done")
 			})
 		})
 })

@@ -24,19 +24,19 @@
 <h2>Wordnet-2012 objects</h2>
 <ul>
 	
-	  <p class="wordnet">tricycle, trike, velocipede</p>
+	  <h3 class="wordnet">tricycle, trike, velocipede</h3>
 	
-	  <p class="wordnet">bassinet</p>
+	  <h3 class="wordnet">bassinet</h3>
 	
-	  <p class="wordnet">cradle</p>
+	  <h3 class="wordnet">cradle</h3>
 	
-	  <p class="wordnet">crib, cot</p>
+	  <h3 class="wordnet">crib, cot</h3>
 	
-	  <p class="wordnet">swing</p>
+	  <h3 class="wordnet">swing</h3>
 	
-	  <p class="wordnet">teddy, teddy bear</p>
+	  <h3 class="wordnet">teddy, teddy bear</h3>
 	
-	  <p class="wordnet">nipple</p>
+	  <h3 class="wordnet">nipple</h3>
 	
 </ul>
 
@@ -47,16 +47,16 @@ document.body.querySelectorAll('.wordnet').forEach((p)=>{
 	fetch("http://image-net.org/search?q="+p.textContent)
 		.then(d=> d.text()).then((body) => {
 			//get the word-net-id
+			console.log(p)
 			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
 			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
 		}).then((d) => d.text()).then((resp) => {
-			var items = resp.split("\n").slice(0,10)
-			console.log(items)
+			var items = resp.split("\n").slice(0,12)
 			items.forEach((item) => {
 				var image = document.createElement("img")
 				image.setAttribute("src", item);
+				image.onerror = function(){this.style.display='none';};
 				p.after(image)
-				console.log("done")
 			})
 		})
 })

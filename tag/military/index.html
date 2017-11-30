@@ -36,25 +36,25 @@
 <h2>Wordnet-2012 objects</h2>
 <ul>
 	
-	  <p class="wordnet">warplane, military plane</p>
+	  <h3 class="wordnet">warplane, military plane</h3>
 	
-	  <p class="wordnet">aircraft carrier, carrier, flattop, attack aircraft carrier</p>
+	  <h3 class="wordnet">aircraft carrier, carrier, flattop, attack aircraft carrier</h3>
 	
-	  <p class="wordnet">submarine, pigboat, sub, U-boat</p>
+	  <h3 class="wordnet">submarine, pigboat, sub, U-boat</h3>
 	
-	  <p class="wordnet">half track</p>
+	  <h3 class="wordnet">half track</h3>
 	
-	  <p class="wordnet">tank, army tank, armored combat vehicle, armoured combat vehicle</p>
+	  <h3 class="wordnet">tank, army tank, armored combat vehicle, armoured combat vehicle</h3>
 	
-	  <p class="wordnet">missile</p>
+	  <h3 class="wordnet">missile</h3>
 	
-	  <p class="wordnet">cannon</p>
+	  <h3 class="wordnet">cannon</h3>
 	
-	  <p class="wordnet">assault rifle, assault gun</p>
+	  <h3 class="wordnet">assault rifle, assault gun</h3>
 	
-	  <p class="wordnet">military uniform</p>
+	  <h3 class="wordnet">military uniform</h3>
 	
-	  <p class="wordnet">pickelhaube</p>
+	  <h3 class="wordnet">pickelhaube</h3>
 	
 </ul>
 
@@ -65,16 +65,16 @@ document.body.querySelectorAll('.wordnet').forEach((p)=>{
 	fetch("http://image-net.org/search?q="+p.textContent)
 		.then(d=> d.text()).then((body) => {
 			//get the word-net-id
+			console.log(p)
 			var split = body.split('href="synset?wnid=n')[1].split('"')[0]
 			return fetch("http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n"+split)
 		}).then((d) => d.text()).then((resp) => {
-			var items = resp.split("\n").slice(0,10)
-			console.log(items)
+			var items = resp.split("\n").slice(0,12)
 			items.forEach((item) => {
 				var image = document.createElement("img")
 				image.setAttribute("src", item);
+				image.onerror = function(){this.style.display='none';};
 				p.after(image)
-				console.log("done")
 			})
 		})
 })
